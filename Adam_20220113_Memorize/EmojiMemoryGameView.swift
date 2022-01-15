@@ -11,15 +11,13 @@ struct EmojiMemoryGameView: View {
     // @ObservedObject 加上这个修饰后viewModel有变化就可以重新绘制页面了
     @ObservedObject var viewModel: EmojiMemoryGame
     var body: some View {
-        HStack {
-            ForEach(viewModel.cards) { card in
-                
-                CardView(card: card)
-                    .onTapGesture {
-                        viewModel.choose(card)
-                    }
-                
-            }
+        Grid(viewModel.cards) { card in
+            CardView(card: card)
+                .onTapGesture {
+                    viewModel.choose(card)
+                }
+                .padding(5)
+            
         }
         .padding()
         .foregroundColor(.orange)
@@ -45,9 +43,10 @@ struct CardView: View {
                     .stroke(lineWidth: edgeLineWidth)
                 Text(card.content)
             } else {
-                
-                RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill()
+                if !card.isMatched {
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .fill()
+                }
             }
             
         }
