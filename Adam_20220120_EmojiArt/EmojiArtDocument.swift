@@ -6,24 +6,22 @@
 //
 
 import SwiftUI
+import Combine
 
 class EmojiArtDocument: ObservableObject {
     
     static let paletts: String = "⭐️🌧🍎🌍🍩🌰😈🐶🦖🐢🦟🐝🐳🌲🌈🔥🌽"
     
-//    @Published
-    private var emojiArt: EmojiArt {
-        willSet {
-            objectWillChange.send()
-        }
-        didSet {
-            UserDefaults.standard.set(emojiArt.json, forKey: EmojiArtDocument.untitled)
-            print("json = \(emojiArt.json?.utf8 ?? "nil")")
-        }
-    }
+    @Published private var emojiArt: EmojiArt
+    
+    private var autosaveCancellable: AnyCancellable?
     
     init() {
         emojiArt = EmojiArt(json: UserDefaults.standard.data(forKey: EmojiArtDocument.untitled)) ?? EmojiArt()
+        autosaveCancellable = $emojiArt.sink { emojiArt in
+            UserDefaults.standard.set(emojiArt.json, forKey: EmojiArtDocument.untitled)
+            print("json = \(emojiArt.json?.utf8 ?? "nil")")
+        }
         fetchBackgroundImageData()
     }
     @Published private(set) var backgroundImage: UIImage?
@@ -50,29 +48,50 @@ class EmojiArtDocument: ObservableObject {
         }
     }
     
-    func setBackgroundURL(_ url: URL?) {
-        emojiArt.backgroundURL = url?.imageURL
-        fetchBackgroundImageData()
+    func trash() {
+        UserDefaults.standard.set("", forKey: EmojiArtDocument.untitled)
+
     }
+    
+    var backgroundURL: URL? {
+        get {
+            emojiArt.backgroundURL
+        }
+        set {
+            emojiArt.backgroundURL = newValue?.imageURL
+            fetchBackgroundImageData()
+        }
+    }
+    
+    @State private var fetchImageCancellabel: AnyCancellable?
     
     private func fetchBackgroundImageData() {
         if let url = self.emojiArt.backgroundURL {
             backgroundImage = nil
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                guard let imageData = data else {
-                    print("no data back")
-                    print("error: \(error?.localizedDescription ?? "error")")
-                    return
-                }
-                DispatchQueue.main.async {
-                    if url == self.emojiArt.backgroundURL {
-                        self.backgroundImage = UIImage(data: imageData)
-                    }
-                }
-            }
-            task.resume()
-
+            fetchImageCancellabel?.cancel()
+            fetchImageCancellabel = URLSession.shared.dataTaskPublisher(for: url)
+                .map { data, urlResponse in UIImage(data: data) }
+                .receive(on: DispatchQueue.main)
+                .replaceError(with: nil)
+                .assign(to: \.backgroundImage, on: self)
         }
+//        if let url = self.emojiArt.backgroundURL {
+//            backgroundImage = nil
+//            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+//                guard let imageData = data else {
+//                    print("no data back")
+//                    print("error: \(error?.localizedDescription ?? "error")")
+//                    return
+//                }
+//                DispatchQueue.main.async {
+//                    if url == self.emojiArt.backgroundURL {
+//                        self.backgroundImage = UIImage(data: imageData)
+//                    }
+//                }
+//            }
+//            task.resume()
+//
+//        }
     }
         
     
