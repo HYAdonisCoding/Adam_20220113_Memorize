@@ -6,10 +6,17 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct EmojiArtDocumentView: View {
     @ObservedObject var document: EmojiArtDocument
     @State private var choosePalette = ""
+    
+    init(document: EmojiArtDocument) {
+        self.document = document;
+//        self.choosePalette = self.document.defaultPalette
+        _choosePalette = State(wrappedValue: self.document.defaultPalette)
+    }
 
     var body: some View {
         VStack {
@@ -28,19 +35,13 @@ struct EmojiArtDocumentView: View {
                     .padding()
                     
                 }
-                .onAppear { self.choosePalette = self.document.defaultPalette }
+//                .onAppear { self.choosenPalette = self.document.defaultPalette }
 //                .layoutPriority(1)
-                Button(action: {
-                    document.trash()
-//                    self.document = EmojiArtDocument.init()
-                }) {
-                    Image(systemName: "trash").imageScale(.large).padding()
-                }
             }
             
             GeometryReader { geometry in
                 ZStack {
-                    Color.purple.overlay(
+                    Color.white.overlay(
                         OptionalImage(uiImage: self.document.backgroundImage)
                             .scaleEffect(zoomScale)
                             .offset(panOffset)
@@ -66,25 +67,53 @@ struct EmojiArtDocumentView: View {
                     zoomToFit(image, in: geometry.size)
                 }
                 .edgesIgnoringSafeArea([.bottom, .horizontal])
-                .onDrop(of: ["public.image", "public.text"], isTargeted: nil) { providers, location in
+                .onDrop(of: ["public.image", "public.jpeg", "public.text"], isTargeted: nil) { providers, location in
                     var location = geometry.convert(location, from: .global)
                     location = CGPoint(x: location.x - geometry.size.width/2, y: location.y - geometry.size.height/2)
                     location = CGPoint(x: location.x - panOffset.width, y: location.y - panOffset.height)
                     location = CGPoint(x: location.x / zoomScale, y: location.y / zoomScale)
                     return self.drop(providers: providers, at: location)
                 }
+                .navigationBarItems(trailing: Button(action: {
+                    if let url = UIPasteboard.general.url, url != document.backgroundURL {
+                        confirmBackgroundPaste = true
+                        
+                    } else {
+                        explainBackgroundPaste.toggle()
+                    }
+                }) {
+                    Image(systemName: "doc.on.clipboard").imageScale(.large)
+                        .alert(isPresented: $explainBackgroundPaste) {
+                            Alert(
+                                title: Text("Paste Background"),
+                                message: Text("Copy the URL of an image to the clip board and touch this button to make it the background of your document."),
+                                dismissButton: .default(Text("OK")))
+                        }
+                })
             }
+            .zIndex(-1)
+        }
+        .alert(isPresented: $confirmBackgroundPaste) {
+            Alert(
+                title: Text("Paste Background"),
+                message: Text("Replace your background with \(UIPasteboard.general.url?.absoluteString ?? "nothing")?."),
+                primaryButton: .default(Text("OK")) {
+                    self.document.backgroundURL = UIPasteboard.general.url
+                }, secondaryButton: .cancel())
         }
     }
+    
+    @State private var explainBackgroundPaste = false
+    @State private var confirmBackgroundPaste = false
+
     var isLoading: Bool {
         document.backgroundURL != nil && document.backgroundImage == nil
     }
-    @State private var steadyStateZoomScale: CGFloat = 1.0
     @GestureState private var gestureZoomScale: CGFloat = 1.0
     
     
     private var zoomScale: CGFloat {
-        steadyStateZoomScale * gestureZoomScale
+        document.steadyStateZoomScale * gestureZoomScale
     }
     private func zoomGesture() -> some Gesture {
         MagnificationGesture()
@@ -92,14 +121,14 @@ struct EmojiArtDocumentView: View {
                 gestureZoomScale = latestGesutreScale
             }
             .onEnded { finalGestureScale in
-                steadyStateZoomScale *= finalGestureScale
+                document.steadyStateZoomScale *= finalGestureScale
             }
     }
-    @State private var steadyStatePanOffset: CGSize = .zero
+    
     @GestureState private var gesturePanOffset: CGSize = .zero
     
     private var panOffset: CGSize {
-        (steadyStatePanOffset + gesturePanOffset) * zoomScale
+        (document.steadyStatePanOffset + gesturePanOffset) * zoomScale
     }
     private func panGesture() -> some Gesture {
         DragGesture()
@@ -109,7 +138,7 @@ struct EmojiArtDocumentView: View {
             .onEnded { finalGragGestureValue in
                 withAnimation(.linear(duration: 0.25)) {
                     
-                    self.steadyStatePanOffset = self.steadyStatePanOffset + (finalGragGestureValue.translation / zoomScale)
+                    self.document.steadyStatePanOffset = document.steadyStatePanOffset + (finalGragGestureValue.translation / zoomScale)
                 }
             }
         
@@ -126,11 +155,11 @@ struct EmojiArtDocumentView: View {
         
     }
     private func zoomToFit(_ image: UIImage?, in size: CGSize) {
-        if let image = image, image.size.width > 0, image.size.height > 0 {
+        if let image = image, image.size.width > 0, image.size.height > 0, size.height > 0, size.width > 0 {
             let hZoom = size.width / image.size.width
             let vZoom = size.height / image.size.height
-            steadyStatePanOffset = .zero
-            self.steadyStateZoomScale = min(hZoom, vZoom)
+            document.steadyStatePanOffset = .zero
+            document.steadyStateZoomScale = min(hZoom, vZoom)
         }
     }
 
@@ -139,16 +168,24 @@ struct EmojiArtDocumentView: View {
         var location = emoji.location
         location = CGPoint(x: location.x * zoomScale, y: location.y * zoomScale)
 
-        location = CGPoint(x: location.x + size.width/2, y: location.y + size.width/2)
+        location = CGPoint(x: location.x + size.width/2, y: location.y + size.height/2)
         location = CGPoint(x: location.x + panOffset.width, y: location.y + panOffset.height)
 
         return location
     }
     
     func drop(providers: [NSItemProvider], at location: CGPoint) -> Bool {
+        
         var found = providers.loadObjects(ofType: URL.self) { url in
             print("droped \(url)")
             self.document.backgroundURL = url
+        }
+        if !found {
+            found = providers.loadObjects(ofType: AVURLAsset.self) { url in
+//                let url: URL = AVAsset(url: url)// A local or remote asset URL.
+                print("A local or remote asset URL", url)
+//                self.document.backgroundURL = url
+            }
         }
         if !found {
             found = providers.loadObjects(ofType: String.self) { emoji in

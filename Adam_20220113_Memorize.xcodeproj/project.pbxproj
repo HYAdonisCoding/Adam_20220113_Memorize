@@ -15,8 +15,13 @@
 		6660F79727930A7C000A58FA /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6660F79627930A7C000A58FA /* GridLayout.swift */; };
 		6660F79A27930E3C000A58FA /* Array+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6660F79927930E3C000A58FA /* Array+Identifiable.swift */; };
 		6660F79C27932335000A58FA /* Array+Only.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6660F79B27932335000A58FA /* Array+Only.swift */; };
+		6662260F27A14A90004274E6 /* EmojiArtDocumentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6662260E27A14A90004274E6 /* EmojiArtDocumentStore.swift */; };
+		6662261127A14E53004274E6 /* EmojiArtDocumentChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6662261027A14E53004274E6 /* EmojiArtDocumentChooser.swift */; };
+		66642D70279FF7BF00CB3B22 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6660F79427930652000A58FA /* Grid.swift */; };
+		66642D71279FF7BF00CB3B22 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6660F79627930A7C000A58FA /* GridLayout.swift */; };
 		66648BD6279A9563006C1A76 /* OptionalImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66648BD5279A9563006C1A76 /* OptionalImage.swift */; };
 		66648BD8279A99DB006C1A76 /* AnimatableSystemFontModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66648BD7279A99DB006C1A76 /* AnimatableSystemFontModifier.swift */; };
+		6664FE6527A29F0300318C18 /* EditableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6664FE6427A29F0300318C18 /* EditableText.swift */; };
 		667CD7B82791773C008672BB /* MemoryGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667CD7B72791773B008672BB /* MemoryGame.swift */; };
 		66858F6227941E2400C00F94 /* Pie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66858F6127941E2400C00F94 /* Pie.swift */; };
 		66858F642794279600C00F94 /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66858F632794279600C00F94 /* Cardify.swift */; };
@@ -34,7 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		664C19112790129500D17D94 /* Adam_20220113_Memorize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Adam_20220113_Memorize.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		664C19112790129500D17D94 /* Memorize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		664C19142790129500D17D94 /* Adam_20220113_MemorizeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adam_20220113_MemorizeApp.swift; sourceTree = "<group>"; };
 		664C19162790129500D17D94 /* EmojiMemoryGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMemoryGameView.swift; sourceTree = "<group>"; };
 		664C19182790129700D17D94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -43,8 +48,11 @@
 		6660F79627930A7C000A58FA /* GridLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		6660F79927930E3C000A58FA /* Array+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Identifiable.swift"; sourceTree = "<group>"; };
 		6660F79B27932335000A58FA /* Array+Only.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Only.swift"; sourceTree = "<group>"; };
+		6662260E27A14A90004274E6 /* EmojiArtDocumentStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArtDocumentStore.swift; sourceTree = "<group>"; };
+		6662261027A14E53004274E6 /* EmojiArtDocumentChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtDocumentChooser.swift; sourceTree = "<group>"; };
 		66648BD5279A9563006C1A76 /* OptionalImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalImage.swift; sourceTree = "<group>"; };
 		66648BD7279A99DB006C1A76 /* AnimatableSystemFontModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatableSystemFontModifier.swift; sourceTree = "<group>"; };
+		6664FE6427A29F0300318C18 /* EditableText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableText.swift; sourceTree = "<group>"; };
 		667CD7B72791773B008672BB /* MemoryGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGame.swift; sourceTree = "<group>"; };
 		66858F6127941E2400C00F94 /* Pie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pie.swift; sourceTree = "<group>"; };
 		66858F632794279600C00F94 /* Cardify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardify.swift; sourceTree = "<group>"; };
@@ -92,7 +100,7 @@
 		664C19122790129500D17D94 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				664C19112790129500D17D94 /* Adam_20220113_Memorize.app */,
+				664C19112790129500D17D94 /* Memorize.app */,
 				668E80A62798F980002B94D1 /* EmojiArt.app */,
 			);
 			name = Products;
@@ -141,11 +149,14 @@
 				6697FEE2279E8EC900C73105 /* Spinning.swift */,
 				6697FEE4279E966000C73105 /* PaletteChooser.swift */,
 				66A0F66D2798FA6800AFD51F /* EmojiArtDocumentView.swift */,
-				66648BD5279A9563006C1A76 /* OptionalImage.swift */,
 				66A0F66B2798FA5600AFD51F /* EmojiArtDocument.swift */,
-				66648BD7279A99DB006C1A76 /* AnimatableSystemFontModifier.swift */,
-				66A0F6712798FCC100AFD51F /* EmojiArtExtensions.swift */,
+				6662261027A14E53004274E6 /* EmojiArtDocumentChooser.swift */,
 				66A0F66F2798FA7800AFD51F /* EmojiArt.swift */,
+				66648BD5279A9563006C1A76 /* OptionalImage.swift */,
+				66648BD7279A99DB006C1A76 /* AnimatableSystemFontModifier.swift */,
+				6662260E27A14A90004274E6 /* EmojiArtDocumentStore.swift */,
+				66A0F6712798FCC100AFD51F /* EmojiArtExtensions.swift */,
+				6664FE6427A29F0300318C18 /* EditableText.swift */,
 				668E80AC2798F984002B94D1 /* Assets.xcassets */,
 				668E80AE2798F984002B94D1 /* Preview Content */,
 			);
@@ -177,7 +188,7 @@
 			);
 			name = Adam_20220113_Memorize;
 			productName = Adam_20220113_Memorize;
-			productReference = 664C19112790129500D17D94 /* Adam_20220113_Memorize.app */;
+			productReference = 664C19112790129500D17D94 /* Memorize.app */;
 			productType = "com.apple.product-type.application";
 		};
 		668E80A52798F980002B94D1 /* Adam_20220120_EmojiArt */ = {
@@ -280,10 +291,15 @@
 				66648BD8279A99DB006C1A76 /* AnimatableSystemFontModifier.swift in Sources */,
 				66A0F66C2798FA5600AFD51F /* EmojiArtDocument.swift in Sources */,
 				66A0F6722798FCC100AFD51F /* EmojiArtExtensions.swift in Sources */,
+				66642D71279FF7BF00CB3B22 /* GridLayout.swift in Sources */,
 				66A0F6702798FA7800AFD51F /* EmojiArt.swift in Sources */,
+				66642D70279FF7BF00CB3B22 /* Grid.swift in Sources */,
 				66648BD6279A9563006C1A76 /* OptionalImage.swift in Sources */,
 				6697FEE7279E9F4C00C73105 /* EmojiArtDocumentPalette.swift in Sources */,
 				66A0F66E2798FA6800AFD51F /* EmojiArtDocumentView.swift in Sources */,
+				6662261127A14E53004274E6 /* EmojiArtDocumentChooser.swift in Sources */,
+				6664FE6527A29F0300318C18 /* EditableText.swift in Sources */,
+				6662260F27A14A90004274E6 /* EmojiArtDocumentStore.swift in Sources */,
 				668E80A92798F981002B94D1 /* Adam_20220120_EmojiArtApp.swift in Sources */,
 				6697FEE3279E8EC900C73105 /* Spinning.swift in Sources */,
 				6697FEE5279E966100C73105 /* PaletteChooser.swift in Sources */,
@@ -432,7 +448,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam.Adam-20220113-Memorize";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Memorize;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -462,7 +478,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.adam.Adam-20220113-Memorize";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Memorize;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -485,7 +501,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -515,7 +531,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

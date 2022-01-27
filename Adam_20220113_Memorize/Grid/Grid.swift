@@ -6,13 +6,20 @@
 //
 
 import SwiftUI
+extension Grid where Item: Identifiable, ID == Item.ID {
+    init(_ items: [Item], viewForItem: @escaping (Item) -> ItemView) {
+        self.init(items, id:\Item.id, viewForItem: viewForItem)
+    }
+}
 
-struct Grid<Item, ItemView>: View where Item: Identifiable, ItemView: View {
-    private(set)var items: [Item]
+struct Grid<Item, ID, ItemView>: View where ID: Hashable, ItemView: View {
+    private(set) var items: [Item]
+    private(set) var id: KeyPath<Item, ID>
     private(set) var viewForItem: (Item) -> ItemView
     
-    init(_ items: [Item], viewForItem: @escaping (Item) -> ItemView) {
+    init(_ items: [Item], id: KeyPath<Item, ID> , viewForItem: @escaping (Item) -> ItemView) {
         self.items = items
+        self.id = id
         self.viewForItem = viewForItem
     }
     var body: some View {
@@ -21,13 +28,13 @@ struct Grid<Item, ItemView>: View where Item: Identifiable, ItemView: View {
         }
     }
     func body(for layout: GridLayout) -> some View {
-        ForEach(items) { item in
+        ForEach(items, id: id) { item in
             self.body(for: item, in: layout)
         }
     }
     
     func body(for item: Item, in layout: GridLayout) -> some View {
-        let index = items.firstIdenx(matching: item)
+        let index = items.firstIndex(where: { item[keyPath: id] == $0[keyPath: id] } )
         
         
         return Group {

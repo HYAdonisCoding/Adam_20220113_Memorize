@@ -8,7 +8,18 @@
 import SwiftUI
 import Combine
 
-class EmojiArtDocument: ObservableObject {
+class EmojiArtDocument: ObservableObject, Hashable, Identifiable {
+    
+    let id: UUID
+    
+    static func ==(lhs: EmojiArtDocument, rhs: EmojiArtDocument) -> Bool {
+        lhs.id == rhs.id
+        
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
     
     static let paletts: String = "⭐️🌧🍎🌍🍩🌰😈🐶🦖🐢🦟🐝🐳🌲🌈🔥🌽"
     
@@ -16,17 +27,20 @@ class EmojiArtDocument: ObservableObject {
     
     private var autosaveCancellable: AnyCancellable?
     
-    init() {
-        emojiArt = EmojiArt(json: UserDefaults.standard.data(forKey: EmojiArtDocument.untitled)) ?? EmojiArt()
+    init(id: UUID? = nil) {
+        self.id = id ?? UUID()
+        let defaultKey = "EmojiArtDocument.\(self.id.uuidString)"
+
+        emojiArt = EmojiArt(json: UserDefaults.standard.data(forKey: defaultKey)) ?? EmojiArt()
         autosaveCancellable = $emojiArt.sink { emojiArt in
-            UserDefaults.standard.set(emojiArt.json, forKey: EmojiArtDocument.untitled)
+            UserDefaults.standard.set(emojiArt.json, forKey: defaultKey)
             print("json = \(emojiArt.json?.utf8 ?? "nil")")
         }
         fetchBackgroundImageData()
     }
     @Published private(set) var backgroundImage: UIImage?
-    
-    private static let untitled = "EmojiArtDocument.Untitled"
+    @Published var steadyStateZoomScale: CGFloat = 1.0
+    @Published var steadyStatePanOffset: CGSize = .zero
 
     var emojis: [EmojiArt.Emoji] { emojiArt.emojis }
     
@@ -49,7 +63,7 @@ class EmojiArtDocument: ObservableObject {
     }
     
     func trash() {
-        UserDefaults.standard.set("", forKey: EmojiArtDocument.untitled)
+//        UserDefaults.standard.set("", forKey: EmojiArtDocument.untitled)
 
     }
     
@@ -66,32 +80,39 @@ class EmojiArtDocument: ObservableObject {
     @State private var fetchImageCancellabel: AnyCancellable?
     
     private func fetchBackgroundImageData() {
-        if let url = self.emojiArt.backgroundURL {
-            backgroundImage = nil
-            fetchImageCancellabel?.cancel()
-            fetchImageCancellabel = URLSession.shared.dataTaskPublisher(for: url)
-                .map { data, urlResponse in UIImage(data: data) }
-                .receive(on: DispatchQueue.main)
-                .replaceError(with: nil)
-                .assign(to: \.backgroundImage, on: self)
-        }
 //        if let url = self.emojiArt.backgroundURL {
 //            backgroundImage = nil
-//            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-//                guard let imageData = data else {
-//                    print("no data back")
-//                    print("error: \(error?.localizedDescription ?? "error")")
-//                    return
-//                }
-//                DispatchQueue.main.async {
-//                    if url == self.emojiArt.backgroundURL {
-//                        self.backgroundImage = UIImage(data: imageData)
-//                    }
-//                }
-//            }
-//            task.resume()
-//
+//            fetchImageCancellabel?.cancel()
+//            fetchImageCancellabel = URLSession.shared.dataTaskPublisher(for: url)
+//                .map { data, urlResponse in UIImage(data: data) }
+//                .receive(on: DispatchQueue.main)
+//                .replaceError(with: nil)
+//                .assign(to: \.backgroundImage, on: self)
 //        }
+        if let url = self.emojiArt.backgroundURL {
+            print("start downloading \(url)")
+            backgroundImage = nil
+            var request = URLRequest.init(url: url)
+            request.timeoutInterval = 15
+            
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if (error != nil) {
+                    print("error: \(error?.localizedDescription ?? "error")")
+                }
+                guard let imageData = data else {
+                    print("no data back")
+                    print("error: \(error?.localizedDescription ?? "error")")
+                    return
+                }
+                DispatchQueue.main.async {
+                    if url == self.emojiArt.backgroundURL {
+                        self.backgroundImage = UIImage(data: imageData)
+                    }
+                }
+            }
+            task.resume()
+
+        }
     }
         
     
