@@ -16,7 +16,30 @@ struct FlightSearch {
     var inTheAir: Bool = true
 }
 
+
+extension FlightSearch {
+    var predicate: NSPredicate {
+        var format = "destination_ = %@"
+        var args: [NSManagedObject] = [destination]
+        if origin != nil {
+            format += " and origin_ = %@"
+            args.append(origin!)
+        }
+        if airline != nil {
+            format += " and airline_ = %@"
+            args.append(airline!)
+        }
+        if !inTheAir {
+            format += " and departure != nil"
+        }
+        return NSPredicate(format: format, argumentArray: args)
+    }
+}
+
+
 struct FlightsEnrouteView: View {
+    @Environment(\.managedObjectContext) var context
+    
     @State var flightSearch: FlightSearch
     
     var body: some View {
@@ -34,6 +57,7 @@ struct FlightsEnrouteView: View {
         }
         .sheet(isPresented: $showFilter) {
             FilterFlights(flightSearch: self.$flightSearch, isPresented: self.$showFilter)
+                .environment(\.managedObjectContext, context)
         }
     }
     
@@ -51,7 +75,8 @@ struct FlightList: View {
     @FetchRequest var flights: FetchedResults<Flight>
     
     init(_ flightSearch: FlightSearch) {
-        let request =  Flight.fetchRequest(NSPredicate(format: "destination_ = %@", flightSearch.destination))
+        let predicate = flightSearch.predicate
+        let request =  Flight.fetchRequest(predicate)
         _flights = FetchRequest(fetchRequest: request)
     }
 
@@ -68,7 +93,7 @@ struct FlightList: View {
     
     private var title: String {
         let title = "Flights"
-        if let destination = flights.first?.destination {
+        if let destination = flights.first?.destination.icao {
             return title + " to \(destination)"
         } else {
             return title

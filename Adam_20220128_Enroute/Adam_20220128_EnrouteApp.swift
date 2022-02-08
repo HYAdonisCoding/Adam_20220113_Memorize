@@ -10,12 +10,20 @@ import SwiftUI
 @main
 struct Adam_20220128_EnrouteApp: App {
     let persistenceController = PersistenceController.shared
-
+    let defaultAirport: Airport
+    
+    init() {
+        defaultAirport = Airport.withICAO("KSFO", context: PersistenceController.shared.container.viewContext)
+        defaultAirport.fetchIncomingFlights()
+    }
     var body: some Scene {
-        WindowGroup {
+//        let airport = Airport.withICAO("KSFO", context: persistenceController.container.viewContext)
+//        airport.fetchIncomingFlights()
+       return WindowGroup {
+        
             FlightsEnrouteView(
                 flightSearch: FlightSearch(
-                    destination: Airport.withICAO("KSFO", context: persistenceController.container.viewContext) ))
+                    destination: defaultAirport))
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
