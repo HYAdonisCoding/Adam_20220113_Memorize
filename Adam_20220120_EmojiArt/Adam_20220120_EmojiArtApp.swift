@@ -15,7 +15,10 @@ struct Adam_20220120_EmojiArtApp: App {
         
         WindowGroup {
             
-             let store = EmojiArtDocumentStore(named: "Emoji Art")
+//             let store = EmojiArtDocumentStore(named: "Emoji Art")
+            let url = FileManager.default.urls(for: .documentationDirectory, in: .userDomainMask).first!
+            
+            let store = EmojiArtDocumentStore(directory: url)
 //                   store.addDocument()
 //                   store.addDocument(named: "Hello word")
 //
