@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6631920427B648B2000EDC5C /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6631920327B648B2000EDC5C /* MapView.swift */; };
 		664C19152790129500D17D94 /* Adam_20220113_MemorizeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C19142790129500D17D94 /* Adam_20220113_MemorizeApp.swift */; };
 		664C19172790129500D17D94 /* EmojiMemoryGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C19162790129500D17D94 /* EmojiMemoryGameView.swift */; };
 		664C19192790129700D17D94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 664C19182790129700D17D94 /* Assets.xcassets */; };
@@ -59,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6631920327B648B2000EDC5C /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		664C19112790129500D17D94 /* Memorize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		664C19142790129500D17D94 /* Adam_20220113_MemorizeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adam_20220113_MemorizeApp.swift; sourceTree = "<group>"; };
 		664C19162790129500D17D94 /* EmojiMemoryGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMemoryGameView.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				668CE0AD27A524B600287018 /* Airlines.swift */,
 				668CE0AB27A524B600287018 /* Airports.swift */,
 				668CE0AC27A524B600287018 /* FilterFlights.swift */,
+				6631920327B648B2000EDC5C /* MapView.swift */,
 				668CE0A927A524B600287018 /* FlightFetcher.swift */,
 				668CE0A827A524B600287018 /* FlightsEnrouteView.swift */,
 				668CE0AA27A524B600287018 /* FoundationExtensions.swift */,
@@ -434,6 +437,7 @@
 				668CE0D627A5370A00287018 /* Flight.swift in Sources */,
 				668CE0DD27A5377A00287018 /* FlightAware+Enroute.swift in Sources */,
 				668CE0DB27A5377300287018 /* FlightAwareRequest.swift in Sources */,
+				6631920427B648B2000EDC5C /* MapView.swift in Sources */,
 				668CE0D527A5370A00287018 /* Airline.swift in Sources */,
 				668CE0DA27A5377000287018 /* FlightAware+AirportInfo.swift in Sources */,
 				668CE0BB27A5365E00287018 /* Adam_20220128_EnrouteApp.swift in Sources */,
